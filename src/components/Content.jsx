@@ -1,18 +1,22 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import NewPosts from "../pages/NewPosts";
-import PastPosts from "../pages/PastPosts";
+import LatestPage from "../pages/LatestPage";
+import PastPage from "../pages/PastPage";
+import HomePage from "../pages/HomePage";
 import "./Content.scss";
 
 const Content = () => {
   return (
     <main className="content">
       <Switch>
-        <Route exact path="/">
-          <NewPosts />
+        <Route path="/latest">
+          <LatestPage />
         </Route>
         <Route path="/past">
-          <PastPosts />
+          <PastPage />
+        </Route>
+        <Route path="/">
+          <HomePage />
         </Route>
       </Switch>
     </main>
