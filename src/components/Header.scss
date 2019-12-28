@@ -1,0 +1,17 @@
+.header {
+  background: #ff6600;
+  color: black;
+  display: flex;
+  align-items: center;
+}
+
+.header-title {
+  display: inline-block;
+  font-size: 1em;
+  margin: 0;
+  padding: 1em;
+}
+
+.header-nav {
+  margin: 0 1em;
+}
