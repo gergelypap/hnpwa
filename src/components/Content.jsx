@@ -1,22 +1,21 @@
-import React from "react";
-import { Route, Switch } from "react-router-dom";
-import LatestPage from "../pages/LatestPage";
-import PastPage from "../pages/PastPage";
-import HomePage from "../pages/HomePage";
-import "./Content.scss";
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import './Content.scss';
+import StoryListContainer from '../containers/StoryListContainer';
+import { NEW_STORIES, TOP_STORIES } from '../services/api';
 
 const Content = () => {
   return (
     <main className="content">
       <Switch>
         <Route path="/latest">
-          <LatestPage />
+          <StoryListContainer url={NEW_STORIES} />
         </Route>
         <Route path="/past">
-          <PastPage />
+          <h2>past page</h2>
         </Route>
         <Route path="/">
-          <HomePage />
+          <StoryListContainer url={TOP_STORIES} />
         </Route>
       </Switch>
     </main>

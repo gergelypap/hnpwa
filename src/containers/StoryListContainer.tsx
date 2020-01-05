@@ -1,10 +1,14 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import Story from '../components/Story';
-import { fetchTopStories } from '../services/api';
+import { fetchJson } from '../services/api';
 
 const COUNT: number = 30;
 
-const HomePage: React.FunctionComponent = () => {
+interface Props {
+  readonly url: string;
+}
+
+const StoryListContainer: React.FunctionComponent<Props> = ({ url }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [stories, setStories] = useState<number[]>([]);
   const [visibleStories, setVisibleStories] = useState<number[]>([]);
@@ -12,12 +16,12 @@ const HomePage: React.FunctionComponent = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    fetchTopStories().then(data => {
+    fetchJson(url).then((data: number[]) => {
       setStories(data);
       setVisibleStories(data.slice(0, COUNT));
       setIsLoading(false);
     });
-  }, []);
+  }, [url]);
 
   const handleLoadMore = () => {
     const nextBatch = shown + COUNT;
@@ -42,4 +46,4 @@ const HomePage: React.FunctionComponent = () => {
   );
 };
 
-export default HomePage;
+export default StoryListContainer;

@@ -1,4 +1,6 @@
 const BASE_URL: string = 'https://hacker-news.firebaseio.com/v0';
+export const TOP_STORIES: string = `${BASE_URL}/topstories.json`;
+export const NEW_STORIES: string = `${BASE_URL}/newstories.json`;
 
 // TODO: Is there a better way not to include readonly for all items?
 export interface ItemResponse {
@@ -13,12 +15,8 @@ export interface ItemResponse {
   readonly score: number;
 }
 
-function fetchJson(url: string): Promise<any> {
+export function fetchJson(url: string): Promise<any> {
   return fetch(url).then(response => response.json());
-}
-
-export function fetchTopStories(): Promise<number[]> {
-  return fetchJson(`${BASE_URL}/topstories.json`);
 }
 
 export function fetchItem(id: number): Promise<ItemResponse> {
