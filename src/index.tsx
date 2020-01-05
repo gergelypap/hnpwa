@@ -1,22 +1,21 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.scss";
-import App from "./App";
-import * as serviceWorker from "./serviceWorker";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import './index.scss';
+import * as serviceWorker from './serviceWorker';
 
 class ErrorBoundary extends React.Component {
-  state = {
-    error: null
-  };
-
-  static getDerivedStateFromError(error: Error) {
+  public static getDerivedStateFromError(error: Error) {
     return { error };
   }
+  public state = {
+    error: null,
+  };
 
-  render() {
+  public render() {
     if (this.state.error) {
       console.error(this.state.error);
-      return "Error occured, see console";
+      return 'Error occured, see console';
     }
     return this.props.children;
   }
@@ -26,7 +25,7 @@ ReactDOM.render(
   <ErrorBoundary>
     <App />
   </ErrorBoundary>,
-  document.getElementById("root")
+  document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change

@@ -1,6 +1,6 @@
-import React, { Fragment, useEffect, useState } from "react";
-import { fetchTopStories } from "../services/api";
-import Story from "../components/Story";
+import React, { Fragment, useEffect, useState } from 'react';
+import Story from '../components/Story';
+import { fetchTopStories } from '../services/api';
 
 const HomePage: React.FunctionComponent = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -16,7 +16,7 @@ const HomePage: React.FunctionComponent = () => {
 
   return (
     <Fragment>
-      {isLoading ? "Loading..." : stories.map(id => <Story key={id} id={id} />)}
+      {isLoading ? 'Loading...' : stories.map(id => <Story key={id} id={id} />)}
     </Fragment>
   );
 };

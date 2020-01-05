@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { fetchItem, ItemResponse } from "../services/api";
+import React, { useEffect, useState } from 'react';
+import { fetchItem, ItemResponse } from '../services/api';
 
 interface StoryProps {
   id: number;
