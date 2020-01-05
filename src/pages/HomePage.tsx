@@ -5,11 +5,12 @@ import { fetchTopStories } from '../services/api';
 const HomePage: React.FunctionComponent = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [stories, setStories] = useState<number[]>([]);
+  const [limit] = useState<number>(25);
 
   useEffect(() => {
     setIsLoading(true);
     fetchTopStories().then(data => {
-      setStories(data);
+      setStories(data.slice(0, limit));
       setIsLoading(false);
     });
   }, []);

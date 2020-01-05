@@ -1,15 +1,16 @@
 const BASE_URL: string = 'https://hacker-news.firebaseio.com/v0';
 
+// TODO: Is there a better way not to include readonly for all items?
 export interface ItemResponse {
-  id: number;
-  by: string;
-  descendants: number;
-  time: number;
-  kids: number[];
-  title: string;
-  url: string;
-  type: string;
-  score: number;
+  readonly id: number;
+  readonly by: string;
+  readonly descendants: number;
+  readonly time: number;
+  readonly kids: number[];
+  readonly title: string;
+  readonly url: string;
+  readonly type: string;
+  readonly score: number;
 }
 
 function fetchJson(url: string): Promise<any> {
