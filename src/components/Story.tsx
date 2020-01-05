@@ -18,7 +18,7 @@ const Story: React.FunctionComponent<StoryProps> = ({ id }) => {
   }
   const itemUrl: string = `/item?id=${story.id}`;
   return (
-    <div>
+    <li>
       <h2>
         <a href={story.url || itemUrl}>{story.title}</a>
       </h2>
@@ -36,7 +36,7 @@ const Story: React.FunctionComponent<StoryProps> = ({ id }) => {
             : 'discuss'}
         </a>
       </span>
-    </div>
+    </li>
   );
 };
 
