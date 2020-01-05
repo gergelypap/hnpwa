@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { fetchItem } from "../services/api";
+import { fetchItem, ItemResponse } from "../services/api";
 
-const Story = ({ id }) => {
-  const [story, setStory] = useState(null);
+interface StoryProps {
+  id: number;
+}
+
+const Story: React.FunctionComponent<StoryProps> = ({ id }) => {
+  const [story, setStory] = useState<ItemResponse | null>(null);
 
   useEffect(() => {
     fetchItem(id).then(setStory);
-  }, []);
+  }, [id]);
 
   if (!story) {
     return <div>Loading...</div>;
   }
-  console.log(story);
   return (
     <div>
       <h2>

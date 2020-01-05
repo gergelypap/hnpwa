@@ -2,9 +2,9 @@ import React, { Fragment, useEffect, useState } from "react";
 import { fetchTopStories } from "../services/api";
 import Story from "../components/Story";
 
-const HomePage = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [stories, setStories] = useState([]);
+const HomePage: React.FunctionComponent = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [stories, setStories] = useState<number[]>([]);
 
   useEffect(() => {
     setIsLoading(true);

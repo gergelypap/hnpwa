@@ -5,12 +5,11 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
 class ErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { error: null };
-  }
+  state = {
+    error: null
+  };
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError(error: Error) {
     return { error };
   }
 
