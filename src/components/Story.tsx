@@ -2,18 +2,40 @@ import React, { useEffect, useState } from 'react';
 import { fetchItem, ItemResponse } from '../services/api';
 import { timeAgo } from '../utils';
 
-interface StoryProps {
+interface Props {
   id: number;
 }
 
-const Story: React.FunctionComponent<StoryProps> = ({ id }) => {
+const Story: React.FunctionComponent<Props> = ({ id }) => {
   const [story, setStory] = useState<ItemResponse | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchItem(id).then(setStory);
+    let cancelled = false;
+    setLoading(true);
+    const fetch = async () => {
+      try {
+        const json = await fetchItem(id);
+        if (!cancelled) {
+          setStory(json);
+        }
+      } catch (e) {
+        console.log('ERROR');
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+    fetch();
+    return () => {
+      setStory(null);
+      setLoading(false);
+      cancelled = true;
+    };
   }, [id]);
 
-  if (!story) {
+  if (loading || !story) {
     return <div>Loading...</div>;
   }
   const itemUrl: string = `/item?id=${story.id}`;

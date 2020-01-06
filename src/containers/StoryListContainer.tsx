@@ -2,46 +2,46 @@ import React, { Fragment, useEffect, useState } from 'react';
 import Story from '../components/Story';
 import { fetchJson } from '../services/api';
 
-const COUNT: number = 30;
+const CHUNK_SIZE: number = 30;
 
 interface Props {
   readonly url: string;
 }
 
 const StoryListContainer: React.FunctionComponent<Props> = ({ url }) => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [stories, setStories] = useState<number[]>([]);
-  const [visibleStories, setVisibleStories] = useState<number[]>([]);
-  const [shown, setShown] = useState<number>(COUNT);
+  const [loadedChunks, setLoadedChunks] = useState<number>(0);
 
   useEffect(() => {
-    setIsLoading(true);
+    setLoading(true);
     fetchJson(url).then((data: number[]) => {
       setStories(data);
-      setVisibleStories(data.slice(0, COUNT));
-      setIsLoading(false);
+      setLoadedChunks(prev => prev + 1);
+      setLoading(false);
     });
+    return () => {
+      setStories([]);
+      setLoadedChunks(0);
+      setLoading(false);
+    };
   }, [url]);
 
   const handleLoadMore = () => {
-    const nextBatch = shown + COUNT;
-    setVisibleStories(
-      [...visibleStories].concat(stories.slice(shown, nextBatch))
-    );
-    setShown(nextBatch);
+    setLoadedChunks(prev => prev + 1);
   };
 
-  if (isLoading) {
+  if (loading) {
     return <span>Fetching stories...</span>;
   }
   return (
     <Fragment>
       <ol>
-        {visibleStories.map(id => (
+        {stories.slice(0, loadedChunks * CHUNK_SIZE).map(id => (
           <Story key={id} id={id} />
         ))}
       </ol>
-      <button onClick={handleLoadMore}>Load {COUNT} more</button>
+      <button onClick={handleLoadMore}>Load {CHUNK_SIZE} more</button>
     </Fragment>
   );
 };
