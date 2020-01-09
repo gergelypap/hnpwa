@@ -1,12 +1,12 @@
 import React from 'react';
-import useFetchItem from '../hooks/useFetchItem';
-import { timeAgo } from '../utils';
+import useFetchItem from '../../hooks/useFetchItem';
+import { timeAgo } from '../../utils';
 
 interface Props {
   id: number;
 }
 
-const Story: React.FunctionComponent<Props> = ({ id }) => {
+const StoryListItem: React.FunctionComponent<Props> = ({ id }) => {
   const { item, loading } = useFetchItem(id);
 
   if (loading || !item) {
@@ -36,4 +36,4 @@ const Story: React.FunctionComponent<Props> = ({ id }) => {
   );
 };
 
-export default Story;
+export default StoryListItem;

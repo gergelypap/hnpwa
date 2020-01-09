@@ -1,5 +1,5 @@
 import React from 'react';
-import StoryFull from '../components/Item/StoryFull';
+import Story from '../components/Item/Story';
 import useFetchItem from '../hooks/useFetchItem';
 import useQueryParam from '../hooks/useQueryParam';
 
@@ -11,7 +11,7 @@ function ItemContainer() {
   }
   switch (item.type) {
     case 'story':
-      return <StoryFull story={item} />;
+      return <Story story={item} />;
     default:
       return 'Unknown item!';
   }

@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import Story from '../components/Story';
+import StoryListItem from '../components/Item/StoryListItem';
 import { fetchJson } from '../services/api';
 
 const CHUNK_SIZE: number = 30;
@@ -38,7 +38,7 @@ const StoryListContainer: React.FunctionComponent<Props> = ({ url }) => {
     <Fragment>
       <ol>
         {stories.slice(0, loadedChunks * CHUNK_SIZE).map(id => (
-          <Story key={id} id={id} />
+          <StoryListItem key={id} id={id} />
         ))}
       </ol>
       <button onClick={handleLoadMore}>Load {CHUNK_SIZE} more</button>

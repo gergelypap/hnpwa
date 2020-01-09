@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import './App.scss';
-import Content from './components/Content';
-import Footer from './components/Footer';
-import Header from './components/Header';
+import Content from './components/Layout/Content';
+import Footer from './components/Layout/Footer';
+import Header from './components/Layout/Header';
 
 const App: React.FunctionComponent = () => {
   return (
