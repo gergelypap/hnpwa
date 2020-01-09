@@ -1,4 +1,5 @@
 import React from 'react';
+import CommentListContainer from '../../containers/CommentListContainer';
 import { ItemResponse } from '../../services/api';
 import { timeAgo } from '../../utils';
 
@@ -10,11 +11,7 @@ function Story({ story }: { story: ItemResponse }) {
     <div>
       <h1>{story.title}</h1>
       <span>{story.score} points by {story.by} {timeAgo(story.time)}</span>
-      {story.kids ? (
-        <h2>Comments ({story.kids.length})</h2>
-      ) : (
-        "No comments"
-      )}
+      <CommentListContainer ids={story.kids || []} />
     </div>
   );
 }

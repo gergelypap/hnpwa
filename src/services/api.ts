@@ -13,6 +13,7 @@ export interface ItemResponse {
   readonly url: string;
   readonly type: string;
   readonly score: number;
+  readonly text?: string; // Only on Comment
 }
 
 export function fetchJson(url: string): Promise<any> {
