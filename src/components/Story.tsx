@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { fetchItem, ItemResponse } from '../services/api';
+import React from 'react';
+import useFetchItem from '../hooks/useFetchItem';
 import { timeAgo } from '../utils';
 
 interface Props {
@@ -7,54 +7,28 @@ interface Props {
 }
 
 const Story: React.FunctionComponent<Props> = ({ id }) => {
-  const [story, setStory] = useState<ItemResponse | null>(null);
-  const [loading, setLoading] = useState(false);
+  const { item, loading } = useFetchItem(id);
 
-  useEffect(() => {
-    let cancelled = false;
-    setLoading(true);
-    const fetch = async () => {
-      try {
-        const json = await fetchItem(id);
-        if (!cancelled) {
-          setStory(json);
-        }
-      } catch (e) {
-        console.log('ERROR');
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
-      }
-    };
-    fetch();
-    return () => {
-      setStory(null);
-      setLoading(false);
-      cancelled = true;
-    };
-  }, [id]);
-
-  if (loading || !story) {
+  if (loading || !item) {
     return <div>Loading...</div>;
   }
-  const itemUrl: string = `/item?id=${story.id}`;
+  const itemUrl: string = `/item?id=${item.id}`;
   return (
     <li>
       <h2>
-        <a href={story.url || itemUrl}>{story.title}</a>
+        <a href={item.url || itemUrl}>{item.title}</a>
       </h2>
       <span>
-        {story.score} points by <a href={`/user?id=${story.by}`}>{story.by}</a>
+        {item.score} points by <a href={`/user?id=${item.by}`}>{item.by}</a>
       </span>
       <span>
-        <a href={itemUrl}>{timeAgo(story.time)}</a>
+        <a href={itemUrl}>{timeAgo(item.time)}</a>
       </span>
       <span>
         <a href={itemUrl}>
-          {story.descendants
-            ? `${story.descendants} comment` +
-              (story.descendants > 1 ? 's' : '')
+          {item.descendants
+            ? `${item.descendants} comment` +
+              (item.descendants > 1 ? 's' : '')
             : 'discuss'}
         </a>
       </span>
