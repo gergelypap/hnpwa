@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useFetchItem from '../../hooks/useFetchItem';
 import { timeAgo } from '../../utils';
 import ListView from '../View/ListView';
@@ -10,17 +10,25 @@ interface Props {
 
 function Comment({ id }: Props) {
   const { item, loading } = useFetchItem(id);
+  const [open, setOpen] = useState<boolean>(true);
+
+  function toggleComment() {
+    setOpen(prev => !prev);
+  }
+
   if (loading || !item) {
     return <span>Loading comment...</span>;
   }
   return (
-    <div className="comment">
+    <div className={'comment' + (!open ? ' comment-closed' : '')}>
       <div className="comment-header">
         <a href={`/user?id=${item.by}`}>{item.by}</a>
         <a href={`/item?id=${id}`}>{timeAgo(item.time)}</a>
-        <button className="comment-close">[-]</button>
+        <button className="comment-close" onClick={toggleComment}>
+          {open ? '[-]' : `[+${item.kids ? item.kids.length : ''}]`}
+        </button>
       </div>
-      <div>{item.text}</div>
+      <div className="comment-body">{item.text}</div>
       {item.kids && <ListView ids={item.kids} type="comment" />}
     </div>
   );
