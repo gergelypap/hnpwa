@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Comment from '../Item/Comment';
 import Story from '../Item/Story';
 
@@ -23,7 +23,7 @@ function ListView({ ids = [], type }: Props) {
   if (ids.length === 0) {
     return <div>No items.</div>;
   }
-  return <div>{ids.map(id => getItem(id, type))}</div>;
+  return <Fragment>{ids.map(id => getItem(id, type))}</Fragment>;
 }
 
 export default ListView;

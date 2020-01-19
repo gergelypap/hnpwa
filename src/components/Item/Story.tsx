@@ -17,27 +17,37 @@ function Story({ id, showComments = false }: Props) {
   }
 
   const itemUrl: string = `/item/${item.id}`;
-
+  const baseUrl = item.url
+    ? item.url.replace(/^https?:\/\/(www.)?/i, '').split(/[/?]/)[0]
+    : null;
   return (
-    <div className="story">
+    <article className="story">
       <h1 className="story-title">
         <a href={item.url || itemUrl}>{item.title}</a>
       </h1>
-      <span className="story-detail">
-        {item.score} points by <a href={`/user/${item.by}`}>{item.by}</a>
-      </span>
-      <span className="story-detail">
-        <a href={itemUrl}>{timeAgo(item.time)}</a>
-      </span>
-      <span className="story-detail">
-        <a href={itemUrl}>
-          {item.descendants
-            ? `${item.descendants} comment` + (item.descendants > 1 ? 's' : '')
-            : 'discuss'}
+      {baseUrl && (
+        <a className="story-baseurl" href={`/from/${baseUrl}`}>
+          ({baseUrl})
         </a>
-      </span>
+      )}
+      <div>
+        <span className="story-detail">
+          {item.score} points by <a href={`/user/${item.by}`}>{item.by}</a>
+        </span>
+        <span className="story-detail">
+          <a href={itemUrl}>{timeAgo(item.time)}</a>
+        </span>
+        <span className="story-detail">
+          <a href={itemUrl}>
+            {item.descendants
+              ? `${item.descendants} comment` +
+                (item.descendants > 1 ? 's' : '')
+              : 'discuss'}
+          </a>
+        </span>
+      </div>
       {showComments && <ListView ids={item.kids} type="comment" />}
-    </div>
+    </article>
   );
 }
 
