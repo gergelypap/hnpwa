@@ -1,17 +1,42 @@
 import React from 'react';
-import CommentListContainer from '../../containers/CommentListContainer';
-import { ItemResponse } from '../../services/api';
+import useFetchItem from '../../hooks/useFetchItem';
 import { timeAgo } from '../../utils';
+import ListView from '../View/ListView';
+import './Story.scss';
 
-// TODO: Create interface for StoryListItem.
-// TODO: Obj. destructure typehint looks ugly.
+interface Props {
+  id: number;
+  showComments?: boolean;
+}
 
-function Story({ story }: { story: ItemResponse }) {
+function Story({ id, showComments = false }: Props) {
+  const { item, loading } = useFetchItem(id);
+
+  if (loading || !item) {
+    return <div>Loading...</div>;
+  }
+
+  const itemUrl: string = `/item?id=${item.id}`;
+
   return (
-    <div>
-      <h1>{story.title}</h1>
-      <span>{story.score} points by {story.by} {timeAgo(story.time)}</span>
-      <CommentListContainer ids={story.kids || []} />
+    <div className="story">
+      <h1 className="story-title">
+        <a href={item.url || itemUrl}>{item.title}</a>
+      </h1>
+      <span className="story-detail">
+        {item.score} points by <a href={`/user?id=${item.by}`}>{item.by}</a>
+      </span>
+      <span className="story-detail">
+        <a href={itemUrl}>{timeAgo(item.time)}</a>
+      </span>
+      <span className="story-detail">
+        <a href={itemUrl}>
+          {item.descendants
+            ? `${item.descendants} comment` + (item.descendants > 1 ? 's' : '')
+            : 'discuss'}
+        </a>
+      </span>
+      {showComments && <ListView ids={item.kids} type="comment" />}
     </div>
   );
 }

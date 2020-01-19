@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import StoryListItem from '../components/Item/StoryListItem';
+import ListView from '../components/View/ListView';
 import { fetchJson } from '../services/api';
 
 const CHUNK_SIZE: number = 30;
@@ -8,7 +8,7 @@ interface Props {
   readonly url: string;
 }
 
-const StoryListContainer: React.FunctionComponent<Props> = ({ url }) => {
+const StoryListContainer = ({ url }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [stories, setStories] = useState<number[]>([]);
   const [loadedChunks, setLoadedChunks] = useState<number>(0);
@@ -36,11 +36,10 @@ const StoryListContainer: React.FunctionComponent<Props> = ({ url }) => {
   }
   return (
     <Fragment>
-      <ol>
-        {stories.slice(0, loadedChunks * CHUNK_SIZE).map(id => (
-          <StoryListItem key={id} id={id} />
-        ))}
-      </ol>
+      <ListView
+        ids={stories.slice(0, loadedChunks * CHUNK_SIZE)}
+        type="story"
+      />
       <button onClick={handleLoadMore}>Load {CHUNK_SIZE} more</button>
     </Fragment>
   );

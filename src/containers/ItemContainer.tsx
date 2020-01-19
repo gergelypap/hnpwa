@@ -11,9 +11,9 @@ function ItemContainer() {
   }
   switch (item.type) {
     case 'story':
-      return <Story story={item} />;
+      return <Story id={item.id} showComments={true} />;
     default:
-      return 'Unknown item!';
+      throw new Error(`Unknown item type ${item.type}`);
   }
 }
 

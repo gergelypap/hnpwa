@@ -10,16 +10,16 @@ const Content = () => {
     <main className="content">
       <Switch>
         <Route path="/latest">
-          <StoryListContainer url={NEW_STORIES}/>
+          <StoryListContainer url={NEW_STORIES} />
         </Route>
         <Route path="/past">
           <h2>past page</h2>
         </Route>
         <Route path="/item">
-          <ItemContainer/>
+          <ItemContainer />
         </Route>
         <Route path="/">
-          <StoryListContainer url={TOP_STORIES}/>
+          <StoryListContainer url={TOP_STORIES} />
         </Route>
       </Switch>
     </main>
