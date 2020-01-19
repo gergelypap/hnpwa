@@ -28,7 +28,10 @@ function Comment({ id }: Props) {
           {open ? '[-]' : `[+${item.kids ? item.kids.length : ''}]`}
         </button>
       </div>
-      <div className="comment-body">{item.text}</div>
+      <div
+        className="comment-body"
+        dangerouslySetInnerHTML={{ __html: item.text || '' }}
+      />
       {item.kids && <ListView ids={item.kids} type="comment" />}
     </div>
   );
