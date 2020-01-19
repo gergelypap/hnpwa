@@ -21,7 +21,7 @@ function getItem(id: number, type: string) {
 
 function ListView({ ids = [], type }: Props) {
   if (ids.length === 0) {
-    return <span>No items.</span>;
+    return <div>No items.</div>;
   }
   return <div>{ids.map(id => getItem(id, type))}</div>;
 }

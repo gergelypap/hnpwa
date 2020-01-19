@@ -16,7 +16,7 @@ function Story({ id, showComments = false }: Props) {
     return <div>Loading...</div>;
   }
 
-  const itemUrl: string = `/item?id=${item.id}`;
+  const itemUrl: string = `/item/${item.id}`;
 
   return (
     <div className="story">
@@ -24,7 +24,7 @@ function Story({ id, showComments = false }: Props) {
         <a href={item.url || itemUrl}>{item.title}</a>
       </h1>
       <span className="story-detail">
-        {item.score} points by <a href={`/user?id=${item.by}`}>{item.by}</a>
+        {item.score} points by <a href={`/user/${item.by}`}>{item.by}</a>
       </span>
       <span className="story-detail">
         <a href={itemUrl}>{timeAgo(item.time)}</a>

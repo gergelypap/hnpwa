@@ -22,8 +22,8 @@ function Comment({ id }: Props) {
   return (
     <div className={'comment' + (!open ? ' comment-closed' : '')}>
       <div className="comment-header">
-        <a href={`/user?id=${item.by}`}>{item.by}</a>
-        <a href={`/item?id=${id}`}>{timeAgo(item.time)}</a>
+        <a href={`/user/${item.by}`}>{item.by}</a>
+        <a href={`/item/${id}`}>{timeAgo(item.time)}</a>
         <button className="comment-close" onClick={toggleComment}>
           {open ? '[-]' : `[+${item.kids ? item.kids.length : ''}]`}
         </button>
