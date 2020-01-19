@@ -9,30 +9,30 @@ interface Props {
 }
 
 function Comment({ id }: Props) {
-  const { item, loading } = useFetchItem(id);
+  const [comment, loading] = useFetchItem(id);
   const [open, setOpen] = useState<boolean>(true);
 
   function toggleComment() {
     setOpen(prev => !prev);
   }
 
-  if (loading || !item) {
+  if (loading || !comment) {
     return <span>Loading comment...</span>;
   }
   return (
     <div className={'comment' + (!open ? ' comment-closed' : '')}>
       <div className="comment-header">
-        <a href={`/user/${item.by}`}>{item.by}</a>
-        <a href={`/item/${id}`}>{timeAgo(item.time)}</a>
+        <a href={`/user/${comment.by}`}>{comment.by}</a>
+        <a href={`/item/${id}`}>{timeAgo(comment.time)}</a>
         <button className="comment-close" onClick={toggleComment}>
-          {open ? '[-]' : `[+${item.kids ? item.kids.length : ''}]`}
+          {open ? '[-]' : `[+${comment.kids ? comment.kids.length : ''}]`}
         </button>
       </div>
       <div
         className="comment-body"
-        dangerouslySetInnerHTML={{ __html: item.text || '' }}
+        dangerouslySetInnerHTML={{ __html: comment.text || '' }}
       />
-      {item.kids && <ListView ids={item.kids} type="comment" />}
+      {comment.kids && <ListView ids={comment.kids} type="comment" />}
     </div>
   );
 }

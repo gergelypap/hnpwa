@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { fetchItem, ItemResponse } from '../services/api';
 
 function useFetchItem(id: number) {
-  const [item, setItem] = useState<ItemResponse | null>(null);
+  const [item, setItem] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ function useFetchItem(id: number) {
     };
   }, [id]);
 
-  return { item, loading };
+  return [item, loading];
 }
 
 export default useFetchItem;
