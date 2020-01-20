@@ -17,7 +17,9 @@ const isLocalhost = Boolean(
     // 127.0.0.0/8 are considered localhost for IPv4.
     window.location.hostname.match(
       /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
-    )
+    ) ||
+    // Check if localhost IP is specifically set as environment variable.
+    window.location.hostname === process.env.LOCALHOST
 );
 
 interface Config {
