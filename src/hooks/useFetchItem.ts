@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchItem, ItemResponse } from '../services/api';
+import { fetchItem } from '../services/api';
 
 function useFetchItem(id: number) {
   const [item, setItem] = useState<any>(null);
@@ -8,21 +8,12 @@ function useFetchItem(id: number) {
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
-    const fetch = async () => {
-      try {
-        const json = await fetchItem(id);
-        if (!cancelled) {
-          setItem(json);
-        }
-      } catch (e) {
-        console.log('ERROR');
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
+    fetchItem(id).then(response => {
+      if (!cancelled) {
+        setItem(response);
+        setLoading(false);
       }
-    };
-    fetch();
+    });
     return () => {
       setItem(null);
       setLoading(false);
