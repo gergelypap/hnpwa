@@ -1,6 +1,6 @@
 import React from 'react';
 import useFetchItem from '../../hooks/useFetchItem';
-import { timeAgo } from '../../utils';
+import { baseUrl, pluralize, timeAgo } from '../../utils';
 import ListView from '../View/ListView';
 import './Story.scss';
 
@@ -16,23 +16,22 @@ function Story({ id, showComments = false }: Props) {
     return <div>Loading...</div>;
   }
 
-  const itemUrl: string = `/item/${story.id}`;
-  const baseUrl = story.url
-    ? story.url.replace(/^https?:\/\/(www.)?/i, '').split(/[/?]/)[0]
-    : null;
+  const itemUrl = `/item/${story.id}`;
+  const source = story.url ? baseUrl(story.url) : null;
   return (
     <article className="story">
       <h1 className="story-title">
         <a href={story.url || itemUrl}>{story.title}</a>
       </h1>
-      {baseUrl && (
-        <a className="story-baseurl" href={`/from/${baseUrl}`}>
-          ({baseUrl})
+      {source && (
+        <a className="story-baseurl" href={`/from/${source}`}>
+          ({source})
         </a>
       )}
       <div>
         <span className="story-detail">
-          {story.score} points by <a href={`/user/${story.by}`}>{story.by}</a>
+          {pluralize(story.score, 'point', 'points')} by{' '}
+          <a href={`/user/${story.by}`}>{story.by}</a>
         </span>
         <span className="story-detail">
           <a href={itemUrl}>{timeAgo(story.time)}</a>
@@ -40,8 +39,7 @@ function Story({ id, showComments = false }: Props) {
         <span className="story-detail">
           <a href={itemUrl}>
             {story.descendants
-              ? `${story.descendants} comment` +
-                (story.descendants > 1 ? 's' : '')
+              ? pluralize(story.descendants, 'comment', 'comments')
               : 'discuss'}
           </a>
         </span>

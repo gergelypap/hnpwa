@@ -1,3 +1,15 @@
+export function baseUrl(url: string): string {
+  return url.replace(/^https?:\/\/(www.)?/i, '').split(/[/?]/)[0];
+}
+
+export function pluralize(
+  count: number,
+  singular: string,
+  plural: string
+): string {
+  return String(count) + ' ' + (count === 1 ? singular : plural);
+}
+
 export const timeAgo = (timestamp: number) => {
   // TODO: Use https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RelativeTimeFormat/format if supported.
   // TODO: Refactor this function.
