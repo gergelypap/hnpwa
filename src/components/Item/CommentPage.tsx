@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import { ItemResponse } from '../../services/api';
 import Comment from './Comment';
 import useFetchItem from '../../hooks/useFetchItem';
 import { timeAgo } from '../../utils';
