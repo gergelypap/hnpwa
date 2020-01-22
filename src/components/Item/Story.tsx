@@ -1,5 +1,7 @@
 import React from 'react';
-import useFetchItem from '../../hooks/useFetchItem';
+import useSWR from 'swr/esm/use-swr';
+
+import { BASE_URL, fetchJson } from '../../services/api';
 import { baseUrl, pluralize, timeAgo } from '../../utils';
 import ListView from '../View/ListView';
 import './Story.scss';
@@ -10,18 +12,20 @@ interface Props {
 }
 
 function Story({ id, showComments = false }: Props) {
-  const [story, loading] = useFetchItem(id);
+  const { data, error } = useSWR(`${BASE_URL}/item/${id}.json`, fetchJson);
 
-  if (loading || !story) {
-    return <div>Loading...</div>;
+  if (error) {
+    return <span>Failed to load data.</span>;
   }
-
-  const itemUrl = `/item/${story.id}`;
-  const source = story.url ? baseUrl(story.url) : null;
+  if (!data) {
+    return <span>Fetching stories...</span>;
+  }
+  const itemUrl = `/item/${data.id}`;
+  const source = data.url ? baseUrl(data.url) : null;
   return (
     <article className="story">
       <h1 className="story-title">
-        <a href={story.url || itemUrl}>{story.title}</a>
+        <a href={data.url || itemUrl}>{data.title}</a>
       </h1>
       {source && (
         <a className="story-baseurl" href={`/from/${source}`}>
@@ -30,21 +34,21 @@ function Story({ id, showComments = false }: Props) {
       )}
       <div>
         <span className="story-detail">
-          {pluralize(story.score, 'point', 'points')} by{' '}
-          <a href={`/user/${story.by}`}>{story.by}</a>
+          {pluralize(data.score, 'point', 'points')} by{' '}
+          <a href={`/user/${data.by}`}>{data.by}</a>
         </span>
         <span className="story-detail">
-          <a href={itemUrl}>{timeAgo(story.time)}</a>
+          <a href={itemUrl}>{timeAgo(data.time)}</a>
         </span>
         <span className="story-detail">
           <a href={itemUrl}>
-            {story.descendants
-              ? pluralize(story.descendants, 'comment', 'comments')
+            {data.descendants
+              ? pluralize(data.descendants, 'comment', 'comments')
               : 'discuss'}
           </a>
         </span>
       </div>
-      {showComments && <ListView ids={story.kids} type="comment" />}
+      {showComments && <ListView ids={data.kids} type="comment" />}
     </article>
   );
 }

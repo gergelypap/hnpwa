@@ -1,4 +1,6 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useCallback, useState } from 'react';
+import useSWR from 'swr/esm/use-swr';
+
 import ListView from '../components/View/ListView';
 import { fetchJson } from '../services/api';
 
@@ -9,38 +11,23 @@ interface Props {
 }
 
 const StoryListContainer = ({ url }: Props) => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [stories, setStories] = useState<number[]>([]);
-  const [loadedChunks, setLoadedChunks] = useState<number>(0);
+  const { data, error } = useSWR(url, fetchJson);
+  const [loadedChunks, setLoadedChunks] = useState<number>(1);
 
-  useEffect(() => {
-    setLoading(true);
-    fetchJson(url).then((data: number[]) => {
-      setStories(data);
-      setLoadedChunks(prev => prev + 1);
-      setLoading(false);
-    });
-    return () => {
-      setStories([]);
-      setLoadedChunks(0);
-      setLoading(false);
-    };
-  }, [url]);
+  const incrementChunks = useCallback(() => {
+    setLoadedChunks(loadedChunks + 1);
+  }, [loadedChunks]);
 
-  const handleLoadMore = () => {
-    setLoadedChunks(prev => prev + 1);
-  };
-
-  if (loading) {
+  if (error) {
+    return <span>Failed to load data.</span>;
+  }
+  if (!data) {
     return <span>Fetching stories...</span>;
   }
   return (
     <Fragment>
-      <ListView
-        ids={stories.slice(0, loadedChunks * CHUNK_SIZE)}
-        type="story"
-      />
-      <button onClick={handleLoadMore}>Load {CHUNK_SIZE} more</button>
+      <ListView ids={data.slice(0, loadedChunks * CHUNK_SIZE)} type="story" />
+      <button onClick={incrementChunks}>Load {CHUNK_SIZE} more</button>
     </Fragment>
   );
 };

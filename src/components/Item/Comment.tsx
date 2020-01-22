@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import useFetchItem from '../../hooks/useFetchItem';
+import React, { useCallback, useState } from 'react';
+import useSWR from 'swr/esm/use-swr';
+
+import { BASE_URL, fetchItem, fetchJson } from '../../services/api';
 import { timeAgo } from '../../utils';
 import ListView from '../View/ListView';
 import './Comment.scss';
@@ -9,30 +11,33 @@ interface Props {
 }
 
 function Comment({ id }: Props) {
-  const [comment, loading] = useFetchItem(id);
   const [open, setOpen] = useState<boolean>(true);
+  const { data, error } = useSWR(String(id), () => fetchItem(id));
 
-  function toggleComment() {
-    setOpen(prev => !prev);
+  const toggleComment = useCallback(() => {
+    setOpen(!open);
+  }, [open]);
+
+  if (error) {
+    return <span>Failed to load data.</span>;
   }
-
-  if (loading || !comment) {
-    return <span>Loading comment...</span>;
+  if (!data) {
+    return <span>Fetching stories...</span>;
   }
   return (
     <div className={'comment' + (!open ? ' comment-closed' : '')}>
       <div className="comment-header">
-        <a href={`/user/${comment.by}`}>{comment.by}</a>
-        <a href={`/item/${id}`}>{timeAgo(comment.time)}</a>
+        <a href={`/user/${data.by}`}>{data.by}</a>
+        <a href={`/item/${id}`}>{timeAgo(data.time)}</a>
         <button className="comment-close" onClick={toggleComment}>
-          {open ? '[-]' : `[+${comment.kids ? comment.kids.length : ''}]`}
+          {open ? '[-]' : `[+${data.kids ? data.kids.length : ''}]`}
         </button>
       </div>
       <div
         className="comment-body"
-        dangerouslySetInnerHTML={{ __html: comment.text || '' }}
+        dangerouslySetInnerHTML={{ __html: data.text || '' }}
       />
-      {comment.kids && <ListView ids={comment.kids} type="comment" />}
+      {data.kids && <ListView ids={data.kids} type="comment" />}
     </div>
   );
 }
