@@ -14,7 +14,7 @@ interface Props {
   };
 }
 
-export default ({ comment }: Props) => {
+const CommentPage = ({ comment }: Props) => {
   const [parent] = useFetchItem(comment.parent);
   return (
     <Fragment>
@@ -33,3 +33,5 @@ export default ({ comment }: Props) => {
     </Fragment>
   );
 };
+
+export default CommentPage;

@@ -5,8 +5,8 @@ import CommentPage from '../components/Item/CommentPage';
 import Story from '../components/Item/Story';
 import useFetchItem from '../hooks/useFetchItem';
 
-export default () => {
-  const { id } = useParams();
+const ItemContainer = () => {
+  const { id } = useParams() as any;
   if (!id) {
     throw new Error(`No ID found.`);
   }
@@ -24,3 +24,5 @@ export default () => {
       throw new Error(`Unknown item type ${item.type}`);
   }
 };
+
+export default ItemContainer;

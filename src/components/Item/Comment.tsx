@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import useSWR from 'swr/esm/use-swr';
 
-import { BASE_URL, fetchItem, fetchJson } from '../../services/api';
+import { fetchItem } from '../../services/api';
 import { timeAgo } from '../../utils';
 import ListView from '../View/ListView';
 import './Comment.scss';
