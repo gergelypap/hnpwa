@@ -1,10 +1,9 @@
-import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import './App.scss';
 import Content from './components/Layout/Content';
 import Header from './components/Layout/Header';
 
-const App: React.FunctionComponent = () => {
+const App = () => {
   return (
     <BrowserRouter>
       <div className="app">
