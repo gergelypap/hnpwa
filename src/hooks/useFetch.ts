@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BASE_URL, ItemResponse } from 'services/api';
+import { BASE_URL } from 'services/api';
 
 export function useFetch<T>(url: string): [T | null, boolean] {
   const [data, setData] = useState(null);
@@ -8,12 +8,12 @@ export function useFetch<T>(url: string): [T | null, boolean] {
   useEffect(() => {
     const abortController = new AbortController();
     setLoading(true);
-    
+
     fetch(url, {
-        method: 'GET',
-        mode: 'cors',
-        signal: abortController.signal,
-      })
+      method: 'GET',
+      mode: 'cors',
+      signal: abortController.signal,
+    })
       .then((response: Response) => response.json())
       .then((response) => {
         setData(response);

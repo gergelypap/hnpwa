@@ -1,7 +1,7 @@
-import Comment from './Comment';
-import PostDate from './PostDate';
 import { useFetchItem } from 'hooks/useFetch';
 import { CommentInterface } from 'services/api';
+import Comment from './Comment';
+import PostDate from './PostDate';
 
 interface Props {
   comment: CommentInterface;

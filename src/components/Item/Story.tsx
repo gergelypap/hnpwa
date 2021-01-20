@@ -1,10 +1,10 @@
-import { baseUrl, pluralize } from 'utils';
 import Comment from 'components/Item/Comment';
-import Skeleton from 'react-loading-skeleton';
 import PostDate from 'components/Item/PostDate';
 import { useFetchItem } from 'hooks/useFetch';
+import Skeleton from 'react-loading-skeleton';
+import { ItemInterface } from 'services/api';
+import { baseUrl, pluralize } from 'utils';
 import './Story.scss';
-import { ItemResponse } from 'services/api';
 
 interface Props {
   id: number;
@@ -22,7 +22,7 @@ function StorySkeleton() {
 }
 
 function Story({ id, showComments = false }: Props) {
-  const [story, loading] = useFetchItem<ItemResponse>(id);
+  const [story, loading] = useFetchItem<ItemInterface>(id);
 
   if (loading || !story) {
     return <StorySkeleton />;
@@ -56,7 +56,9 @@ function Story({ id, showComments = false }: Props) {
         </span>
       </div>
       {showComments &&
-        story.kids.map((id: number) => <Comment key={id} id={id} />)}
+        story.kids.map((commentId: number) => (
+          <Comment key={commentId} id={commentId} />
+        ))}
     </article>
   );
 }

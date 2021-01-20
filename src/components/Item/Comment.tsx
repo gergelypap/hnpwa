@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 
-import './Comment.scss';
 import PostDate from 'components/Item/PostDate';
 import { useFetchItem } from 'hooks/useFetch';
 import { CommentInterface } from 'services/api';
+import './Comment.scss';
 
 interface Props {
   id: number;
@@ -47,7 +47,9 @@ function Comment({ id }: Props) {
         dangerouslySetInnerHTML={{ __html: comment.text || '' }}
       />
       {comment.kids &&
-        comment.kids.map((id: number) => <Comment key={id} id={id} />)}
+        comment.kids.map((childId: number) => (
+          <Comment key={childId} id={childId} />
+        ))}
     </div>
   );
 }

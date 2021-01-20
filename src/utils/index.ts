@@ -33,4 +33,4 @@ export function timeAgo(timestamp: number) {
     return relativeTime.format(-Math.round(elapsed / msPerMonth), 'month');
   }
   return relativeTime.format(-Math.round(elapsed / msPerYear), 'year');
-};
+}
