@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import useSWR from 'swr/esm/use-swr';
 
 import { fetchItem } from 'services/api';
@@ -7,6 +8,15 @@ import PostDate from 'components/Item/PostDate';
 
 interface Props {
   id: number;
+}
+
+function CommentSkeleton() {
+  return (
+    <div className="comment">
+      <Skeleton width={'20%'} />
+      <Skeleton count={2} />
+    </div>
+  );
 }
 
 function Comment({ id }: Props) {
@@ -21,7 +31,7 @@ function Comment({ id }: Props) {
     return <span>Failed to load data.</span>;
   }
   if (!data) {
-    return <span>Fetching stories...</span>;
+    return <CommentSkeleton />;
   }
   return (
     <div className={'comment' + (!open ? ' comment-closed' : '')}>

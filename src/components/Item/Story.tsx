@@ -3,12 +3,24 @@ import useSWR from 'swr/esm/use-swr';
 import { BASE_URL, fetchJson } from 'services/api';
 import { baseUrl, pluralize } from 'utils';
 import Comment from 'components/Item/Comment';
+import Skeleton from 'react-loading-skeleton';
 import PostDate from 'components/Item/PostDate';
 import './Story.scss';
 
 interface Props {
   id: number;
   showComments?: boolean;
+}
+
+function StorySkeleton() {
+  const randomWidth = Math.floor(Math.random() * 80) + 20;
+  return (
+    <div className="story">
+      <Skeleton width={`${randomWidth}%`} height={25} />
+      <div></div>
+      <Skeleton width={'40%'} />
+    </div>
+  );
 }
 
 function Story({ id, showComments = false }: Props) {
@@ -20,8 +32,8 @@ function Story({ id, showComments = false }: Props) {
   if (error) {
     return <span>Failed to load story.</span>;
   }
-  if (story) {
-    return <span>Fetching stories...</span>;
+  if (!story) {
+    return <StorySkeleton />;
   }
   const itemUrl = `/item/${story.id}`;
   const source = story.url ? baseUrl(story.url) : null;

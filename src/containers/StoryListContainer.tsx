@@ -21,7 +21,7 @@ const StoryListContainer = ({ url }: Props) => {
     return <span>Failed to load data.</span>;
   }
   if (!data) {
-    return <span>Fetching stories...</span>;
+    return null;
   }
   return (
     <>
