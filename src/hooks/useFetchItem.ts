@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchItem } from '../services/api';
+import { fetchItem } from 'services/api';
 
 function useFetchItem(id: number) {
   const [item, setItem] = useState<any>(null);

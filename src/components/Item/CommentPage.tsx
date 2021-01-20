@@ -1,7 +1,6 @@
-import React, { Fragment } from 'react';
 import Comment from './Comment';
-import useFetchItem from '../../hooks/useFetchItem';
-import { timeAgo } from '../../utils';
+import useFetchItem from 'hooks/useFetchItem';
+import { timeAgo } from 'utils';
 
 interface Props {
   comment: {
@@ -17,7 +16,7 @@ interface Props {
 const CommentPage = ({ comment }: Props) => {
   const [parent] = useFetchItem(comment.parent);
   return (
-    <Fragment>
+    <>
       <div className="comment-header">
         <a href={`/user/${comment.by}`}>{comment.by}</a>
         <span>{timeAgo(comment.time)}</span>
@@ -29,8 +28,8 @@ const CommentPage = ({ comment }: Props) => {
         className="comment-body"
         dangerouslySetInnerHTML={{ __html: comment.text }}
       />
-      {comment.kids && comment.kids.map(id => <Comment key={id} id={id} />)}
-    </Fragment>
+      {comment.kids && comment.kids.map((id) => <Comment key={id} id={id} />)}
+    </>
   );
 };
 

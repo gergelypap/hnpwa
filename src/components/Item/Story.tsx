@@ -1,9 +1,8 @@
-import React from 'react';
 import useSWR from 'swr/esm/use-swr';
 
-import { BASE_URL, fetchJson } from '../../services/api';
-import { baseUrl, pluralize, timeAgo } from '../../utils';
-import ListView from '../View/ListView';
+import { BASE_URL, fetchJson } from 'services/api';
+import { baseUrl, pluralize, timeAgo } from 'utils';
+import ListView from 'components/View/ListView';
 import './Story.scss';
 
 interface Props {

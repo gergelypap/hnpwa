@@ -1,8 +1,8 @@
-import React, { Fragment, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import useSWR from 'swr/esm/use-swr';
 
-import ListView from '../components/View/ListView';
-import { fetchJson } from '../services/api';
+import ListView from 'components/View/ListView';
+import { fetchJson } from 'services/api';
 
 const CHUNK_SIZE: number = 30;
 
@@ -25,10 +25,10 @@ const StoryListContainer = ({ url }: Props) => {
     return <span>Fetching stories...</span>;
   }
   return (
-    <Fragment>
+    <>
       <ListView ids={data.slice(0, loadedChunks * CHUNK_SIZE)} type="story" />
       <button onClick={incrementChunks}>Load {CHUNK_SIZE} more</button>
-    </Fragment>
+    </>
   );
 };
 

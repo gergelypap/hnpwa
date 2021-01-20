@@ -1,8 +1,8 @@
-import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import ItemContainer from '../../containers/ItemContainer';
-import StoryListContainer from '../../containers/StoryListContainer';
-import { NEW_STORIES, TOP_STORIES } from '../../services/api';
+
+import ItemContainer from 'containers/ItemContainer';
+import StoryListContainer from 'containers/StoryListContainer';
+import { NEW_STORIES, TOP_STORIES } from 'services/api';
 import './Content.scss';
 
 const Content = () => {

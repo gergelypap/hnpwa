@@ -1,9 +1,8 @@
-import React from 'react';
 import { useParams } from 'react-router-dom';
 
-import CommentPage from '../components/Item/CommentPage';
-import Story from '../components/Item/Story';
-import useFetchItem from '../hooks/useFetchItem';
+import CommentPage from 'components/Item/CommentPage';
+import Story from 'components/Item/Story';
+import useFetchItem from 'hooks/useFetchItem';
 
 const ItemContainer = () => {
   const { id } = useParams() as any;

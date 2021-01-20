@@ -1,9 +1,9 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import useSWR from 'swr/esm/use-swr';
 
-import { fetchItem } from '../../services/api';
-import { timeAgo } from '../../utils';
-import ListView from '../View/ListView';
+import { fetchItem } from 'services/api';
+import { timeAgo } from 'utils';
+import ListView from 'components/View/ListView';
 import './Comment.scss';
 
 interface Props {
