@@ -1,31 +1,27 @@
 import { useCallback, useState } from 'react';
-import useSWR from 'swr/esm/use-swr';
 
 import Story from 'components/Item/Story';
-import { fetchJson } from 'services/api';
+import { useFetch } from 'hooks/useFetch';
 
 interface Props {
   readonly url: string;
 }
 
 const StoryListContainer = ({ url }: Props) => {
-  const { data, error } = useSWR(url, fetchJson);
-  const [loadedChunks, setLoadedChunks] = useState<number>(1);
+  const [stories, loading] = useFetch<number[]>(url);
+  const [loadedChunks, setLoadedChunks] = useState(1);
   const chunkSize = 30;
 
   const incrementChunks = useCallback(() => {
     setLoadedChunks(loadedChunks + 1);
   }, [loadedChunks]);
 
-  if (error) {
-    return <span>Failed to load data.</span>;
-  }
-  if (!data) {
-    return null;
+  if (loading || !stories) {
+    return <span>Loading...</span>;
   }
   return (
     <>
-      {data.slice(0, loadedChunks * chunkSize).map((id: number) => (
+      {stories.slice(0, loadedChunks * chunkSize).map((id) => (
         <Story key={id} id={id} />
       ))}
       <button onClick={incrementChunks}>Load {chunkSize} more</button>

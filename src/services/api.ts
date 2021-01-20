@@ -2,25 +2,19 @@ export const BASE_URL: string = 'https://hacker-news.firebaseio.com/v0';
 export const TOP_STORIES: string = `${BASE_URL}/topstories.json`;
 export const NEW_STORIES: string = `${BASE_URL}/newstories.json`;
 
-// TODO: Is there a better way not to include readonly for all items?
 export interface ItemResponse {
-  readonly id: number;
-  readonly by: string;
-  readonly descendants: number;
-  readonly time: number;
-  readonly kids: number[];
-  readonly title: string;
-  readonly url: string;
-  readonly type: string;
-  readonly score: number;
-  readonly text?: string; // Only on Comment
+  id: number;
+  by: string;
+  descendants: number;
+  time: number;
+  kids: number[];
+  title: string;
+  url: string;
+  type: string;
+  score: number;
 }
 
-export async function fetchJson(url: string): Promise<any> {
-  const response = await fetch(url);
-  return await response.json();
-}
-
-export function fetchItem(id: number): Promise<ItemResponse> {
-  return fetchJson(`${BASE_URL}/item/${id}.json`);
+export interface CommentInterface extends ItemResponse {
+  text: string;
+  parent: number;
 }

@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import useSWR from 'swr/esm/use-swr';
 
-import { fetchItem } from 'services/api';
 import './Comment.scss';
 import PostDate from 'components/Item/PostDate';
+import { useFetchItem } from 'hooks/useFetch';
+import { CommentInterface } from 'services/api';
 
 interface Props {
   id: number;
@@ -20,33 +20,34 @@ function CommentSkeleton() {
 }
 
 function Comment({ id }: Props) {
-  const [open, setOpen] = useState<boolean>(true);
-  const { data, error } = useSWR(String(id), () => fetchItem(id));
+  const [open, setOpen] = useState(true);
+  const [comment, loading] = useFetchItem<CommentInterface>(id);
 
   const toggleComment = useCallback(() => {
     setOpen(!open);
   }, [open]);
 
-  if (error) {
-    return <span>Failed to load data.</span>;
-  }
-  if (!data) {
+  if (loading) {
     return <CommentSkeleton />;
+  }
+  if (!comment) {
+    return <span>Failed to load data.</span>;
   }
   return (
     <div className={'comment' + (!open ? ' comment-closed' : '')}>
       <div className="comment-header">
-        <a href={`/user/${data.by}`}>{data.by}</a>
-        <PostDate timestamp={data.time} url={`/item/${id}`} />
+        <a href={`/user/${comment.by}`}>{comment.by}</a>
+        <PostDate timestamp={comment.time} url={`/item/${id}`} />
         <button className="comment-close" onClick={toggleComment}>
-          {open ? '[-]' : `[+${data.kids ? data.kids.length : ''}]`}
+          {open ? '[-]' : `[+${comment.kids ? comment.kids.length : ''}]`}
         </button>
       </div>
       <div
         className="comment-body"
-        dangerouslySetInnerHTML={{ __html: data.text || '' }}
+        dangerouslySetInnerHTML={{ __html: comment.text || '' }}
       />
-      {data.kids && data.kids.map((id) => <Comment key={id} id={id} />)}
+      {comment.kids &&
+        comment.kids.map((id: number) => <Comment key={id} id={id} />)}
     </div>
   );
 }

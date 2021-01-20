@@ -1,20 +1,15 @@
 import Comment from './Comment';
 import PostDate from './PostDate';
-import useFetchItem from 'hooks/useFetchItem';
+import { useFetchItem } from 'hooks/useFetch';
+import { CommentInterface } from 'services/api';
 
 interface Props {
-  comment: {
-    id: number;
-    parent: number;
-    by: string;
-    time: number;
-    text: string;
-    kids: number[];
-  };
+  comment: CommentInterface;
 }
 
 const CommentPage = ({ comment }: Props) => {
-  const [parent] = useFetchItem(comment.parent);
+  const [parent] = useFetchItem<CommentInterface>(comment.parent);
+
   return (
     <>
       <div className="comment-header">
