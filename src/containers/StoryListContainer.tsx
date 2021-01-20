@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import useSWR from 'swr/esm/use-swr';
 
-import ListView from 'components/View/ListView';
+import Story from 'components/Item/Story';
 import { fetchJson } from 'services/api';
 
 const CHUNK_SIZE: number = 30;
@@ -26,7 +26,9 @@ const StoryListContainer = ({ url }: Props) => {
   }
   return (
     <>
-      <ListView ids={data.slice(0, loadedChunks * CHUNK_SIZE)} type="story" />
+      {data.slice(0, loadedChunks * CHUNK_SIZE).map((id: number) => (
+        <Story key={id} id={id} />
+      ))}
       <button onClick={incrementChunks}>Load {CHUNK_SIZE} more</button>
     </>
   );

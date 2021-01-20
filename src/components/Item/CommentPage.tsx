@@ -1,6 +1,6 @@
 import Comment from './Comment';
+import PostDate from './PostDate';
 import useFetchItem from 'hooks/useFetchItem';
-import { timeAgo } from 'utils';
 
 interface Props {
   comment: {
@@ -19,9 +19,8 @@ const CommentPage = ({ comment }: Props) => {
     <>
       <div className="comment-header">
         <a href={`/user/${comment.by}`}>{comment.by}</a>
-        <span>{timeAgo(comment.time)}</span>
-        <a href={`/item/${comment.parent}`}>parent</a>
-        {'on: '}
+        <PostDate timestamp={comment.time} />
+        {' on: '}
         <a href={`/item/${comment.parent}`}>{parent && parent.title}</a>
       </div>
       <div

@@ -2,9 +2,8 @@ import { useCallback, useState } from 'react';
 import useSWR from 'swr/esm/use-swr';
 
 import { fetchItem } from 'services/api';
-import { timeAgo } from 'utils';
-import ListView from 'components/View/ListView';
 import './Comment.scss';
+import PostDate from 'components/Item/PostDate';
 
 interface Props {
   id: number;
@@ -28,7 +27,7 @@ function Comment({ id }: Props) {
     <div className={'comment' + (!open ? ' comment-closed' : '')}>
       <div className="comment-header">
         <a href={`/user/${data.by}`}>{data.by}</a>
-        <a href={`/item/${id}`}>{timeAgo(data.time)}</a>
+        <PostDate timestamp={data.time} url={`/item/${id}`} />
         <button className="comment-close" onClick={toggleComment}>
           {open ? '[-]' : `[+${data.kids ? data.kids.length : ''}]`}
         </button>
@@ -37,7 +36,7 @@ function Comment({ id }: Props) {
         className="comment-body"
         dangerouslySetInnerHTML={{ __html: data.text || '' }}
       />
-      {data.kids && <ListView ids={data.kids} type="comment" />}
+      {data.kids && data.kids.map((id) => <Comment key={id} id={id} />)}
     </div>
   );
 }

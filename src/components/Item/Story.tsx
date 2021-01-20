@@ -1,8 +1,9 @@
 import useSWR from 'swr/esm/use-swr';
 
 import { BASE_URL, fetchJson } from 'services/api';
-import { baseUrl, pluralize, timeAgo } from 'utils';
-import ListView from 'components/View/ListView';
+import { baseUrl, pluralize } from 'utils';
+import Comment from 'components/Item/Comment';
+import PostDate from 'components/Item/PostDate';
 import './Story.scss';
 
 interface Props {
@@ -37,7 +38,7 @@ function Story({ id, showComments = false }: Props) {
           <a href={`/user/${data.by}`}>{data.by}</a>
         </span>
         <span className="story-detail">
-          <a href={itemUrl}>{timeAgo(data.time)}</a>
+          <PostDate timestamp={data.time} url={itemUrl} />
         </span>
         <span className="story-detail">
           <a href={itemUrl}>
@@ -47,7 +48,8 @@ function Story({ id, showComments = false }: Props) {
           </a>
         </span>
       </div>
-      {showComments && <ListView ids={data.kids} type="comment" />}
+      {showComments &&
+        data.kids.map((id: number) => <Comment key={id} id={id} />)}
     </article>
   );
 }

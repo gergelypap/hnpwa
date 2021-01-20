@@ -16,8 +16,9 @@ export interface ItemResponse {
   readonly text?: string; // Only on Comment
 }
 
-export function fetchJson(url: string): Promise<any> {
-  return fetch(url).then(response => response.json());
+export async function fetchJson(url: string): Promise<any> {
+  const response = await fetch(url);
+  return await response.json();
 }
 
 export function fetchItem(id: number): Promise<ItemResponse> {
