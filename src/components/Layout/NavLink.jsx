@@ -1,12 +1,12 @@
 import { NavLink as ReactRouterNavLink } from 'react-router-dom';
-
 import './NavLink.scss';
 
 const NavLink = ({ to, children }) => {
   return (
     <ReactRouterNavLink
-      className="nav-link"
-      activeclassname="nav-link--active"
+      className={({ isActive }) =>
+        'nav-link' + (isActive ? ' nav-link--active' : '')
+      }
       to={to}
     >
       {children}
