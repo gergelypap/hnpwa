@@ -34,3 +34,5 @@ export function timeAgo(timestamp: number) {
   }
   return relativeTime.format(-Math.round(elapsed / msPerYear), 'year');
 }
+
+export const fetcher = (url: string) => fetch(url).then((res) => res.json());

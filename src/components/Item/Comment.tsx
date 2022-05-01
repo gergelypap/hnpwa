@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
-
 import PostDate from 'components/Item/PostDate';
-import { useFetchItem } from 'hooks/useFetch';
-import { CommentInterface } from 'services/api';
+import { BASE_URL, CommentInterface } from 'services/api';
 import './Comment.scss';
+import useSWR from 'swr';
+import { fetcher } from 'utils';
 
 interface Props {
   id: number;
@@ -20,18 +20,18 @@ function CommentSkeleton() {
 }
 
 function Comment({ id }: Props) {
+  const { data: comment } = useSWR<CommentInterface>(
+    `${BASE_URL}/item/${id}.json`,
+    fetcher
+  );
   const [open, setOpen] = useState(true);
-  const [comment, loading] = useFetchItem<CommentInterface>(id);
 
   const toggleComment = useCallback(() => {
     setOpen(!open);
   }, [open]);
 
-  if (loading) {
-    return <CommentSkeleton />;
-  }
   if (!comment) {
-    return <span>Failed to load data.</span>;
+    return <CommentSkeleton />;
   }
   return (
     <div className={'comment' + (!open ? ' comment-closed' : '')}>

@@ -1,9 +1,9 @@
 import Comment from 'components/Item/Comment';
 import PostDate from 'components/Item/PostDate';
-import { useFetchItem } from 'hooks/useFetch';
 import Skeleton from 'react-loading-skeleton';
-import { ItemInterface } from 'services/api';
-import { baseUrl, pluralize } from 'utils';
+import { BASE_URL } from 'services/api';
+import useSWR from 'swr';
+import { baseUrl, fetcher, pluralize } from 'utils';
 import './Story.scss';
 
 interface Props {
@@ -22,9 +22,9 @@ function StorySkeleton() {
 }
 
 function Story({ id, showComments = false }: Props) {
-  const [story, loading] = useFetchItem<ItemInterface>(id);
+  const { data: story } = useSWR(`${BASE_URL}/item/${id}.json`, fetcher);
 
-  if (loading || !story) {
+  if (!story) {
     return <StorySkeleton />;
   }
   const itemUrl = `/item/${story.id}`;
@@ -56,9 +56,11 @@ function Story({ id, showComments = false }: Props) {
         </span>
       </div>
       {showComments &&
+        story.kids &&
         story.kids.map((commentId: number) => (
           <Comment key={commentId} id={commentId} />
         ))}
+      {showComments && !story.kids && <p>There are no comments yet.</p>}
     </article>
   );
 }

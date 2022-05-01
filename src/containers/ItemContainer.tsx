@@ -2,8 +2,9 @@ import { useParams } from 'react-router-dom';
 
 import CommentPage from 'components/Item/CommentPage';
 import Story from 'components/Item/Story';
-import { useFetchItem } from 'hooks/useFetch';
-import { CommentInterface, ItemInterface } from 'services/api';
+import { BASE_URL, CommentInterface, ItemInterface } from 'services/api';
+import useSWR from 'swr';
+import { fetcher } from 'utils';
 
 const ItemContainer = () => {
   const { id } = useParams() as any;
@@ -11,8 +12,12 @@ const ItemContainer = () => {
     throw new Error(`No ID found.`);
   }
 
-  const [item, loading] = useFetchItem<ItemInterface & CommentInterface>(id);
-  if (loading || !item) {
+  const { data: item } = useSWR<ItemInterface & CommentInterface>(
+    `${BASE_URL}/item/${id}.json`,
+    fetcher
+  );
+
+  if (!item) {
     return <div>Loading...</div>;
   }
   switch (item.type) {

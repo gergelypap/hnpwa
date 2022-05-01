@@ -1,5 +1,6 @@
-import { useFetchItem } from 'hooks/useFetch';
-import { CommentInterface } from 'services/api';
+import { BASE_URL, CommentInterface } from 'services/api';
+import useSWR from 'swr';
+import { fetcher } from 'utils';
 import Comment from './Comment';
 import PostDate from './PostDate';
 
@@ -8,7 +9,10 @@ interface Props {
 }
 
 const CommentPage = ({ comment }: Props) => {
-  const [parent] = useFetchItem<CommentInterface>(comment.parent);
+  const { data: parent } = useSWR<CommentInterface>(
+    `${BASE_URL}/item/${comment.parent}.json`,
+    fetcher
+  );
 
   return (
     <>
