@@ -1,5 +1,4 @@
-import { Route, Switch } from 'react-router-dom';
-
+import { Route, Routes } from 'react-router-dom';
 import ItemContainer from 'containers/ItemContainer';
 import StoryListContainer from 'containers/StoryListContainer';
 import { NEW_STORIES, TOP_STORIES } from 'services/api';
@@ -8,20 +7,14 @@ import './Content.scss';
 const Content = () => {
   return (
     <main className="content">
-      <Switch>
-        <Route exact={true} path="/">
-          <StoryListContainer url={TOP_STORIES} />
-        </Route>
-        <Route path="/latest">
-          <StoryListContainer url={NEW_STORIES} />
-        </Route>
-        <Route path="/past">
-          <h2>past page</h2>
-        </Route>
-        <Route path="/item/:id">
-          <ItemContainer />
-        </Route>
-      </Switch>
+      <Routes>
+        <Route path="/" element={<StoryListContainer url={TOP_STORIES} />} />
+        <Route
+          path="/latest"
+          element={<StoryListContainer url={NEW_STORIES} />}
+        />
+        <Route path="/item/:id" element={<ItemContainer />} />
+      </Routes>
     </main>
   );
 };

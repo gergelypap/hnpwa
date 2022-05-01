@@ -11,7 +11,6 @@ const Header = () => {
       </h1>
       <nav className="header-nav">
         <NavLink to="/latest">latest</NavLink>
-        <NavLink to="/past">past</NavLink>
       </nav>
     </header>
   );

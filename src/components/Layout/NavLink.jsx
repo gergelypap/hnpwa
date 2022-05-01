@@ -6,7 +6,7 @@ const NavLink = ({ to, children }) => {
   return (
     <ReactRouterNavLink
       className="nav-link"
-      activeClassName="nav-link--active"
+      activeclassname="nav-link--active"
       to={to}
     >
       {children}
