@@ -1,4 +1,1 @@
-# Hackernews PWA
-
-Achieve https://github.com/tastejs/hacker-news-pwas
-
+# Hackernews clone in React
